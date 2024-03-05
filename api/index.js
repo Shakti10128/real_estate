@@ -25,3 +25,15 @@ mongoose.connect(process.env.MONGO_URL)
 app.listen(3000,()=>{
     console.log("server is running on PORT: ",3000)
 })
+
+// error handler 
+app.use((err,req,res,next)=>{
+    const statusCode = err.statusCode || 500;
+    const message = err.message || "Internal server error";
+
+    return res.status(statusCode).json({
+        success:false,
+        statusCode:statusCode,
+        message:message
+    });
+})
