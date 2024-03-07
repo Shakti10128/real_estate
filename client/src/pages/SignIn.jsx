@@ -2,11 +2,16 @@ import React, { useState } from 'react'
 import {Link} from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import {useDispatch, useSelector} from 'react-redux';
+import { signInStart,signInSuccess,signInFailure } from '../redux/user/userSlice';
 
 const SignIn = () => {
+  const dispatch =useDispatch();
   const navigete = useNavigate();
   const [formData,setFormData] = useState({});
-  const [isLoading,setIsLoading] = useState(false);
+
+  const isLoading = useSelector((state)=>state.user.loading);
+
 
   // keep tracking the form value inputs
   const handleChange = (e)=>{
@@ -18,7 +23,7 @@ const SignIn = () => {
 
   // handling form submit event
   const handleSubmit = async(e)=>{
-    setIsLoading(true);
+    dispatch(signInStart());
     // prventig the form to submit
     e.preventDefault();
     const res = await fetch('/api/auth/sign-in',{
@@ -31,13 +36,13 @@ const SignIn = () => {
     const data = await res.json(); 
     if(data?.success === true){
       toast.success(data.message);
-      setIsLoading(false);
+      dispatch(signInSuccess(data.userData));
       // navigate to sign in page
       navigete('/');
     }
     else{
+      dispatch(signInFailure());
       toast.error(data.message);
-      setIsLoading(false);
     }
   }
 

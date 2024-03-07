@@ -73,10 +73,11 @@ export const signIn = async(req,res)=>{
             })
 
             // make user password undefined
+            user.password = undefined;
             return res.cookie("token",token,{httpOnly:true}).status(200).json({
                 success:true,
                 message:`Welcome back ${user.username}`,
-                data:user
+                userData:user
             })
         }
         // password not matched
