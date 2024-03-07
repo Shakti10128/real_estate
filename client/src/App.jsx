@@ -7,9 +7,6 @@ import About from './pages/About'
 import Header from "./components/Header"
 
 function App() {
-
-
-  console.log("first")
   return (
         <BrowserRouter >
         <Header/>
