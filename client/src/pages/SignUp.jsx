@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import {Link} from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import OAuth from '../components/OAuth';
 
 const SignUp = () => {
   const navigete = useNavigate();
@@ -69,12 +70,13 @@ const SignUp = () => {
       <button disabled={isLoading}  className='bg-slate-700 text-white p-3 rounded-lg uppercase hover:opacity-95 disabled:opacity-85 cursor-pointer '>
         {isLoading ? "Loading..." : "Continue"}
       </button>
+      <OAuth/>
       </form>
 
       <div className="flex  gap-2 mt-5">
         <h1>Have an account?</h1>
         <Link to={'/sign-in'}>
-          <span className='font-semibold text-blue-700'>Sign In</span>
+          <span className='font-semibold text-blue-700 hover:underline'>Sign In</span>
         </Link>
       </div>
     </div>

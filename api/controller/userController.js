@@ -92,3 +92,42 @@ export const signIn = async(req,res)=>{
         return error.message;
     }
 }
+
+// google auth controller
+export const googleAuth = async(req,res)=>{
+    try {
+        // check user exist or not
+        const user = await User.findOne({email:req.body.email});
+        // create the token and return the response
+        if(user){
+            const token = jwt.sign({id:user._id},process.env.JWT_SECRET);
+            const {password:pass,...rest} = user._doc;
+            return res.cookie("token",token,{httpOnly:true}).status(200).json(rest);
+            
+        }
+        // creating the user
+        else{
+            const hashPassword = await bcrypt.hash(req.body.email,10);
+            const newUser = new User({
+                username:req.body.name,
+                email:req.body.email,
+                password:hashPassword,
+                avatar:req.body.photo
+            });
+
+            await newUser.save();
+
+            // define password undefined
+            newUser.password = undefined;
+
+            return res.status(200).json({
+                success:true,
+                message:"User created successfully",
+                userData:newUser
+            })
+        }
+    } catch (error) {
+        console.log("Google auth error");
+        return error.message;
+    }
+}
