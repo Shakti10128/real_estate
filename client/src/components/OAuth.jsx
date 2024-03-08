@@ -1,9 +1,11 @@
 import React from 'react'
 import {GoogleAuthProvider,getAuth,signInWithPopup} from '@firebase/auth'
+import { FcGoogle } from "react-icons/fc";
 import { app } from '../firebase'
 import {useDispatch} from 'react-redux'
 import {signInSuccess} from '../redux/user/userSlice';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 
 
 
@@ -43,8 +45,9 @@ const OAuth = () => {
     // by default button type is submit, change it into button, want to prevent form submition
     <button
     onClick={handleGoogleClick}
-    type='button' className='bg-red-700 text-white p-3 rounded-lg uppercase hover:opacity-85'>
-        Continue with google
+    type='button' className='flex items-center justify-center gap-3  p-3 rounded-lg bg-slate-700'>
+        <FcGoogle/>
+        <span className='font-semibold text-lg text-white'>Google</span>
     </button>
   )
 }
